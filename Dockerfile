@@ -14,16 +14,16 @@ RUN apt-get update && \
         sqlite3 && \
     rm -rf /var/lib/apt/lists/*
 
+# Add Install and Entry
+ADD entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +X /usr/local/bin/entrypoint.sh
+
 # SWITCH BACK TO NONROOT
 USER steam
 WORKDIR /home/steam/steamcmd
 
 VOLUME ["/home/steam/rust_server"]
 
-
-# Move this to SH script
-# RUNNING HERE IS BAD
-RUN ./steamcmd.sh +login anonymous +force_install_dir /home/steam/rust_server +app_update 258550 validate +quit
 
 ENV SERVE_PORT "28015"
 #ENV RCON_PORT "28016"
@@ -49,6 +49,5 @@ ENV SERVER_SAVE_INTERVAL "600"
 WORKDIR /home/steam/rust_server
 
 # Start the server
-#TODO: MOVE TO SH script
-ENTRYPOINT [ "RustDedicated", "${STARTUP_ARGS}", "+server.worldsize ${SERVER_WORLDSIZE}", "+server.seed ${SERVER_SEED}", "+server.maxplayers ${SERVER_MAXPLAYERS}", "+server.port ${SERVE_PORT}", "+server.saveinterval ${SERVER_SAVE_INTERVAL}" ]
+ENTRYPOINT [ "/usr/local/bin/entrypoint.sh" ]
 CMD [ "bash"]
