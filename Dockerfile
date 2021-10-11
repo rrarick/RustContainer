@@ -8,15 +8,9 @@ USER root
 
 # Install dependencies
 # TODO: Fix App Errors
-RUN apt-get update && \
-    apt-get full-upgrade -y --no-install-recommends && \
-    apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get install -y --no-install-recommends \
         sqlite3 && \
     rm -rf /var/lib/apt/lists/*
-
-# Add Install and Entry
-ADD entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +X /usr/local/bin/entrypoint.sh
 
 # SWITCH BACK TO NONROOT
 USER steam
@@ -48,6 +42,10 @@ ENV SERVER_SAVE_INTERVAL "600"
 
 WORKDIR /home/steam/rust_server
 
+# Add Install and Entry
+COPY --chown=steam:steam entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
 # Start the server
-ENTRYPOINT [ "/usr/local/bin/entrypoint.sh" ]
-CMD [ "bash"]
+CMD [ "/usr/local/bin/entrypoint.sh" ]
+#CMD [ "bash" ]
