@@ -12,12 +12,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         sqlite3 && \
     rm -rf /var/lib/apt/lists/*
 
+RUN mkdir /home/steam/rust_server && chown steam:steam /home/steam/rust_server
+VOLUME ["/home/steam/rust_server"]
+
 # SWITCH BACK TO NONROOT
 USER steam
 WORKDIR /home/steam/steamcmd
-
-VOLUME ["/home/steam/rust_server"]
-
 
 ENV SERVE_PORT "28015"
 #ENV RCON_PORT "28016"
@@ -40,12 +40,10 @@ ENV SERVER_WORLDSIZE "3500"
 ENV SERVER_MAXPLAYERS "10"
 ENV SERVER_SAVE_INTERVAL "600"
 
-WORKDIR /home/steam/rust_server
-
 # Add Install and Entry
 COPY --chown=steam:steam entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Start the server
-CMD [ "/usr/local/bin/entrypoint.sh" ]
-#CMD [ "bash" ]
+#CMD [ "/usr/local/bin/entrypoint.sh" ]
+CMD [ "bash" ]
