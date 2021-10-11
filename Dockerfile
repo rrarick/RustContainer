@@ -45,5 +45,5 @@ COPY --chown=steam:steam entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Start the server
-#CMD [ "/usr/local/bin/entrypoint.sh" ]
-CMD [ "bash" ]
+CMD [ "/usr/local/bin/entrypoint.sh" ]
+#CMD [ "bash" ]
