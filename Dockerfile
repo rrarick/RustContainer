@@ -24,12 +24,13 @@ ENV SERVE_PORT "28015"
 #ENV APP_PORT ""
 # Expose ports
 # TODO: RCON
-EXPOSE ${SERVE_PORT}
+EXPOSE ${SERVE_PORT}/tcp
+EXPOSE ${SERVE_PORT}/udp
 #EXPOSE ${RCON_PORT}
 #EXPOSE ${APP_PORT}
 
 # Setup default environment variables
-ENV STARTUP_ARGS "-batchmode -load -nographics +server.secure 0 +server.encryption 0"
+ENV STARTUP_ARGS "+server.secure 0 +server.encryption 0"
 ENV SERVER_SEED "12345"
 #ENV SERVER_NAME "Rust Server [DOCKER]"
 #ENV SERVER_DESCRIPTION "This is a Rust server running inside a Docker container!"
